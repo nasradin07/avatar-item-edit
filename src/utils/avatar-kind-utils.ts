@@ -31,7 +31,7 @@ export const getLabel = (kind: AvatarItemKind): string => {
     }
 };
 
-export type Option = { value: AvatarItemKind; label: string };
+export type Option = { value: number; label: string };
 
 export const options: Option[] = Object.values(AvatarItemKind)
     .filter(Number.isInteger)
