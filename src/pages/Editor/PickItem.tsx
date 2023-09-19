@@ -37,10 +37,14 @@ export const PickItem = () => {
     };
 
     const addItemToSelected = (item: AvatarItem) => {
-        if (newItem && window.confirm('Do you want to discard new item?')) {
-            discardNewItem();
-            handleAdditem(item);
-            return;
+        if (newItem) {
+            if (window.confirm('Are you sure you want to discard new item?')) {
+                discardNewItem();
+                handleAdditem(item);
+                return;
+            } else {
+                return;
+            }
         }
         handleAdditem(item);
     };

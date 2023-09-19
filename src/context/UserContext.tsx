@@ -36,7 +36,12 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
         const res = await makeRequest<LoginResponse>(
             'POST',
             '/auth/admin/login',
-            JSON.stringify(body)
+            JSON.stringify(body),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
         );
         setRequestInProgress(false);
         if (res === 'Error') {

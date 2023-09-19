@@ -70,11 +70,12 @@ export const AvatarItemContextProvider = ({
     const handleAdditem = (item: AvatarItem) => {
         setSelectedItem((pre) => {
             if (pre.findIndex((i) => i.id === item.id) > -1) {
+                setEditItemId(null);
                 return pre.filter((i) => i.id !== item.id);
             }
+            setEditItemId(item.id);
             return [...pre.filter((i) => i.kind !== item.kind), item];
         });
-        setEditItemId((pre) => (pre === item.id ? null : item.id));
     };
 
     const handleUpdateItem: UpdateItemHandler = (prop) => (value) => {

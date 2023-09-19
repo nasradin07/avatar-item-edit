@@ -99,6 +99,7 @@ label {
 .edit-section-container {
     grid-area: editor;
     background-color: whitesmoke;
+    overflow: scroll;
 }
 
 .main-icon {
