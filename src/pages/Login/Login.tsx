@@ -1,14 +1,14 @@
-import { useContext, ChangeEvent, useState } from 'react';
-import { UserContext } from '../../context/UserContext';
-import { LoginForm } from '../../types/LoginForm';
+import {useContext, ChangeEvent, useState} from 'react';
+import {UserContext} from '../../context/UserContext';
+import {LoginForm} from '../../types/LoginForm';
 
 export const Login = () => {
-    const { handleLogin, requestInProgress, error } = useContext(UserContext);
-    const [form, setForm] = useState<LoginForm>({ password: '', username: '' });
+    const {handleLogin, requestInProgress, error} = useContext(UserContext);
+    const [form, setForm] = useState<LoginForm>({password: '', username: ''});
 
     const handleChange =
         (key: keyof LoginForm) => (e: ChangeEvent<HTMLInputElement>) => {
-            setForm((pre) => ({ ...pre, [key]: e.target.value }));
+            setForm((pre) => ({...pre, [key]: e.target.value}));
         };
 
     const handleSubmit = () => {
@@ -23,7 +23,7 @@ export const Login = () => {
                     <label htmlFor="username">Username</label>
                     <input
                         id="name"
-                        className="login-input"
+                        className="input"
                         type="text"
                         placeholder="Username"
                         name="username"
@@ -35,7 +35,7 @@ export const Login = () => {
                     <label htmlFor="password">Password</label>
                     <input
                         id="password"
-                        className="login-input"
+                        className="input"
                         type="password"
                         placeholder="Password"
                         name="password"

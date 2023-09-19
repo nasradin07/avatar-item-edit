@@ -14,7 +14,11 @@ export const AvatarPicker = () => {
                         className="avatar-icon"
                         key={id}
                         src={image}
-                        onClick={() => setAvatarImage(image)}
+                        onClick={() =>
+                            setAvatarImage((pre) =>
+                                pre === image ? null : image
+                            )
+                        }
                         style={
                             avatarImage === image
                                 ? { border: '2px solid rgb(5, 187, 5)' }

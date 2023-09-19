@@ -1,17 +1,17 @@
-import { UserContextProvider } from './context/UserContext'
-import { Header } from './components/Header'
+import {UserContextProvider} from './context/UserContext'
+import {Header} from './components/Header'
 import './App.css'
-import { PageWrapper } from './components/PageWrapper'
-import { AuthGuard } from './components/AuthGuard'
-import { Editor } from './pages/Editor/Editor'
+import {PageWrapper} from './components/PageWrapper'
+import {AuthGuard} from './components/AuthGuard'
+import {Editor} from './pages/Editor/Editor'
 
 function App() {
     return (
         <UserContextProvider>
             <PageWrapper>
-                <Header />
+                <Header/>
                 <AuthGuard>
-                    <Editor />
+                    <Editor/>
                 </AuthGuard>
             </PageWrapper>
         </UserContextProvider>

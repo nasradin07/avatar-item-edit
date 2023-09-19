@@ -1,19 +1,21 @@
-import { createContext, useEffect, useState, ChangeEvent } from 'react';
-import { AvatarItem } from '../types/Avataritem';
+import { createContext, useEffect, useState } from 'react';
+import { AvatarItem, AvatarItemKind } from '../types/Avataritem';
 import { Avatar } from '../types/Avatar';
 import { makeRequest } from '../client';
 import { useRequestTrack } from '../hooks/useRequestTrack';
 import { UpdateResult } from '../types/UpdateResult';
 import { handleFetch } from '../utils/handleFetch';
+import { CreateAvatarItemForm } from '../types/CreateAvatarItemForm';
+import { validateCreateItem, validateUpdateItem } from '../utils/validations';
 
-type UpdateItemHandler = (
+export type UpdateItemHandler = (
     prop: 'x' | 'y' | 'z' | 'points'
-) => (e: ChangeEvent<HTMLInputElement>) => void;
+) => (val: number) => void;
 
 type AvatarItemContext = {
     avatars: Avatar[];
     items: AvatarItem[];
-    setAvatarImage: (val: string | null) => void;
+    setAvatarImage: React.Dispatch<React.SetStateAction<string | null>>;
     avatarImage: string | null;
     handleAdditem: (item: AvatarItem) => void;
     selectedItems: AvatarItem[];
@@ -22,6 +24,13 @@ type AvatarItemContext = {
     requestInProgress: boolean;
     error: string | false;
     saveChanges: (item: AvatarItem) => Promise<void>;
+    newItem: CreateAvatarItemForm | null;
+    handleUpdateNewItem: (
+        prop: keyof CreateAvatarItemForm
+    ) => (value: File | string | number) => void;
+    createNewAvatarItem: () => void;
+    discardNewItem: () => void;
+    saveNewItem: (item: CreateAvatarItemForm) => Promise<void>;
 };
 
 export const AvatarItemContext = createContext<AvatarItemContext>({
@@ -36,6 +45,11 @@ export const AvatarItemContext = createContext<AvatarItemContext>({
     requestInProgress: false,
     error: false,
     saveChanges: () => new Promise(() => {}),
+    newItem: null,
+    handleUpdateNewItem: () => () => {},
+    createNewAvatarItem: () => {},
+    saveNewItem: () => new Promise(() => {}),
+    discardNewItem: () => {},
 });
 
 export const AvatarItemContextProvider = ({
@@ -51,6 +65,8 @@ export const AvatarItemContextProvider = ({
     const { requestInProgress, error, setError, setRequestInProgress } =
         useRequestTrack();
 
+    const [newItem, setNewItem] = useState<CreateAvatarItemForm | null>(null);
+
     const handleAdditem = (item: AvatarItem) => {
         setSelectedItem((pre) => {
             if (pre.findIndex((i) => i.id === item.id) > -1) {
@@ -61,8 +77,7 @@ export const AvatarItemContextProvider = ({
         setEditItemId((pre) => (pre === item.id ? null : item.id));
     };
 
-    const handleUpdateItem: UpdateItemHandler = (prop) => (e) => {
-        const value = parseInt(e.target.value, 10);
+    const handleUpdateItem: UpdateItemHandler = (prop) => (value) => {
         setSelectedItem((pre) => {
             const index = pre.findIndex((i) => i.id === editItemId);
             if (index < 0) return pre;
@@ -74,23 +89,23 @@ export const AvatarItemContextProvider = ({
         });
     };
 
-    const saveChanges = async ({ id, x, y, z }: AvatarItem) => {
+    const saveChanges = async (item: AvatarItem) => {
         setError(false);
         if (requestInProgress) return;
+        const validationRes = validateUpdateItem(item);
+        if (validationRes !== null) {
+            setError(validationRes);
+            return;
+        }
         setRequestInProgress(true);
         const res = await makeRequest<UpdateResult>(
             'PUT',
-            `/avatar_item/${id}`,
-            JSON.stringify({ x, y, z })
+            `/avatar_item/${item.id}`,
+            JSON.stringify({ x: item.x, y: item.y, z: item.z })
         );
         setRequestInProgress(false);
         if (res === 'Error') {
             setError('Failed to update item');
-        } else {
-            console.log(
-                items.find((i) => i.id === id),
-                { x, y, z }
-            );
         }
     };
 
@@ -118,6 +133,61 @@ export const AvatarItemContextProvider = ({
         };
     }, []);
 
+    const handleUpdateNewItem =
+        (prop: keyof CreateAvatarItemForm) => (val: string | File | number) => {
+            setNewItem((pre) => {
+                if (!pre) return pre;
+                return { ...pre, [prop]: val };
+            });
+        };
+
+    const createNewAvatarItem = () => {
+        const obj: CreateAvatarItemForm = {
+            x: 0,
+            y: 0,
+            z: 0,
+            points: 20,
+            kind: AvatarItemKind.Body,
+            file: '',
+            image: '',
+        };
+        setNewItem(obj);
+    };
+
+    const discardNewItem = () => {
+        setNewItem(null);
+    };
+
+    const saveNewItem = async (item: CreateAvatarItemForm) => {
+        setError(false);
+        if (requestInProgress) return;
+        const validationRes = validateCreateItem(item);
+        if (validationRes !== null) {
+            setError(validationRes);
+            return;
+        }
+        setRequestInProgress(true);
+        const form = new FormData();
+        Object.keys(item).forEach((key) => {
+            if (key !== 'image') {
+                form.set(
+                    key,
+                    item[key as keyof CreateAvatarItemForm] as string
+                );
+            }
+        });
+        const res = await makeRequest<AvatarItem>('POST', `/avatar_item`, form);
+        setRequestInProgress(false);
+        if (res === 'Error') {
+            setError('Failed to update item');
+        } else {
+            res.image = item.image;
+            setItems((pre) => [...pre, res]);
+            setSelectedItem((pre) => [...pre, res]);
+            discardNewItem();
+        }
+    };
+
     return (
         <AvatarItemContext.Provider
             value={{
@@ -132,6 +202,11 @@ export const AvatarItemContextProvider = ({
                 requestInProgress,
                 error,
                 saveChanges,
+                newItem,
+                handleUpdateNewItem,
+                createNewAvatarItem,
+                saveNewItem,
+                discardNewItem,
             }}
         >
             {children}

@@ -2,7 +2,8 @@ import { useContext } from 'react';
 import { AvatarItemContext } from '../../context/AvatarItemContext';
 
 export const Avatar = () => {
-    const { avatarImage, selectedItems } = useContext(AvatarItemContext);
+    const { avatarImage, selectedItems, newItem } =
+        useContext(AvatarItemContext);
 
     return (
         <div className="avatar-icon-wrapper">
@@ -22,6 +23,17 @@ export const Avatar = () => {
                         }}
                     />
                 ))}
+                {newItem !== null && newItem.image && (
+                    <img
+                        className="avatar-item"
+                        src={newItem.image}
+                        style={{
+                            top: `${newItem.y}%`,
+                            left: `${newItem.x}%`,
+                            zIndex: newItem.z,
+                        }}
+                    />
+                )}
             </div>
         </div>
     );
