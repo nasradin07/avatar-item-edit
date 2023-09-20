@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { AvatarItemContext } from '../../context/AvatarItemContext';
+import './avatar-picker.css';
 
 export const AvatarPicker = () => {
     const { avatars, setAvatarImage, avatarImage } =
@@ -7,7 +8,6 @@ export const AvatarPicker = () => {
 
     return (
         <>
-            <h3>Pick avatar</h3>
             <div className="avatars-container">
                 {avatars.map(({ id, image }) => (
                     <img

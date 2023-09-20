@@ -1,18 +1,14 @@
 import { useContext, useState } from 'react';
 import Select from 'react-select';
 import { AvatarItemContext } from '../../context/AvatarItemContext';
-import { Option, options } from '../../utils/avatar-kind-utils';
 import { AvatarItem } from '../../types/Avataritem';
+import { options } from '../../utils/avatar-kind-utils';
+import { Option } from '../../utils/avatar-kind-utils';
+import './avatar-item-picker.css';
 
-export const PickItem = () => {
-    const {
-        items,
-        handleAdditem,
-        selectedItems,
-        editItemId,
-        newItem,
-        discardNewItem,
-    } = useContext(AvatarItemContext);
+export const AvatarItemPicker = () => {
+    const { items, handleAdditem, selectedItems, editItemId } =
+        useContext(AvatarItemContext);
     const [selectedKind, setSelectedKind] = useState<Option>(options[0]);
 
     const handleSelect = (o: Option | null) => {
@@ -37,31 +33,29 @@ export const PickItem = () => {
     };
 
     const addItemToSelected = (item: AvatarItem) => {
-        if (newItem) {
-            if (window.confirm('Are you sure you want to discard new item?')) {
-                discardNewItem();
-                handleAdditem(item);
-                return;
-            } else {
-                return;
-            }
-        }
         handleAdditem(item);
     };
 
     return (
         <>
-            <Select
-                value={selectedKind}
-                onChange={handleSelect}
-                options={options}
-                styles={{
-                    control: (baseStyles) => ({
-                        ...baseStyles,
-                        backgroundColor: 'whitesmoke',
-                    }),
-                }}
-            />
+            <div className="select-wrapper">
+                <div>Category:</div>
+                <Select
+                    value={selectedKind}
+                    onChange={handleSelect}
+                    options={options}
+                    styles={{
+                        container: (baseStyles) => ({
+                            ...baseStyles,
+                            width: '100%',
+                        }),
+                        menu: (baseStyles) => ({
+                            ...baseStyles,
+                            color: 'black',
+                        }),
+                    }}
+                />
+            </div>
             <div className="avatar-icons-container">
                 {itemsToShow.map((item) => (
                     <img

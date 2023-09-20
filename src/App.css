@@ -5,30 +5,27 @@
 }
 
 .header {
-    height: 3rem;
+    height: 3.5rem;
     display: flex;
     justify-content: space-between;
     padding: 0.5rem;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    border: 1px solid rgb(196, 193, 193);
     border-top: none;
+    background: rgb(238, 174, 202);
+    background: radial-gradient(
+        circle,
+        rgba(238, 174, 202, 1) 0%,
+        rgba(148, 187, 233, 1) 100%
+    );
+    color: white;
 }
 
 .page-wrapper {
     height: 100vh;
-}
-
-.form-wrapper {
-    padding-top: 10rem;
-    display: flex;
-    justify-content: space-around;
-}
-
-.form {
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    padding: 24px 16px;
+    max-width: 1170px;
+    width: 1170px;
+    border-left: 1px solid rgb(196, 193, 193);
+    border-top: 1px solid rgb(196, 193, 193);
 }
 
 .input-wrapper {
@@ -37,8 +34,9 @@
 
 .input {
     width: 80%;
-    height: 28px;
+    height: 35px;
     font-size: 15px;
+    border-radius: 4px;
 }
 
 .tiny-mock {
@@ -57,107 +55,9 @@ label {
 }
 
 .editor-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
     height: calc(100vh - 3rem);
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
-    grid-template-areas:
-        'images picker'
-        'editor picker';
-}
-
-.avatar-icon-wrapper {
-    grid-area: images;
     width: 100%;
-    height: 100%;
-    background-color: white;
-}
-
-.avatar-with-icons {
-    width: 30rem;
-    height: 30rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.pick-svg-container {
-    grid-area: picker;
-    overflow: auto;
-    border-left: 1px solid black;
-    background-color: white;
-    display: grid;
-    grid-template-rows: 2fr 3fr;
-    gap: 6px;
-}
-
-.pick-svg-item {
-    overflow: auto;
-}
-
-.edit-section-container {
-    grid-area: editor;
-    background-color: whitesmoke;
-    overflow: scroll;
-}
-
-.main-icon {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-}
-
-.avatar-item {
-    position: absolute;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.avatar-icons-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-    overflow: auto;
-}
-
-.avatar-item-icon {
-    border: 1px solid burlywood;
-    cursor: pointer;
-    background-color: rgba(255, 249, 215, 1);
-}
-
-.avatars-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-}
-
-.avatar-icon {
-    height: 100%;
-    width: 100%;
-    padding: 5px;
-    border: 1px solid burlywood;
-    cursor: pointer;
-    background-color: rgba(255, 249, 215, 1);
-}
-
-.avatar-picker-title {
-    text-align: center;
-}
-
-.edit-section-container {
-    border-top: 1px solid rgb(137, 135, 135);
-    padding: 7px;
-}
-
-h3 {
-    text-align: center;
-}
-
-.edit-item-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 80px);
 }
 
 .input-field-wrapper {
@@ -165,6 +65,7 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    width: 100%;
 }
 
 .edit-item-submit {
@@ -172,17 +73,6 @@ h3 {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.item-submit-wrapper {
-    display: flex;
-    gap: 8px;
-}
-
-.edit-item-btn {
-    width: 40%;
-    background-color: #1877f2;
-    color: white;
 }
 
 .discard-item-btn {
@@ -193,66 +83,4 @@ h3 {
 
 .logout {
     cursor: pointer;
-}
-
-.avatar-item-picker-wrapper {
-    overflow: auto;
-}
-
-.tabs {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    background-color: whitesmoke;
-    padding-top: 10px;
-}
-
-.tab-option {
-    text-align: center;
-    cursor: pointer;
-}
-
-.tab-option:first-child {
-    border-right: 1px solid black;
-}
-
-.tab-option.active {
-    background-color: white;
-    color: cornflowerblue;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
-.avatar-item-picker-content-wrapper {
-    padding-top: 8px;
-}
-
-input[type='file'] {
-    display: none;
-}
-
-.file-label {
-    width: 250px;
-    height: 80px;
-    color: white;
-    background-color: lightgrey;
-    border-radius: 5px;
-    padding: 5px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.file-label.has-file {
-    background-color: #4bb543;
-}
-
-.new-item-form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.new-item-form-wrapper {
-    padding: 10px;
-    background-color: #bad2f1;
-    margin: auto;
 }

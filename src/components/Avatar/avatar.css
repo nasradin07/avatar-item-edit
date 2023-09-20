@@ -1,0 +1,25 @@
+.avatar-icon-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+.avatar-with-icons {
+    width: 25rem;
+    height: 25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-icon {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.avatar-item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

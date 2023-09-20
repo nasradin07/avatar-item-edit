@@ -24,12 +24,11 @@ type AvatarItemContext = {
     requestInProgress: boolean;
     error: string | false;
     saveChanges: (item: AvatarItem) => Promise<void>;
-    newItem: CreateAvatarItemForm | null;
+    newItem: CreateAvatarItemForm;
     handleUpdateNewItem: (
         prop: keyof CreateAvatarItemForm
     ) => (value: File | string | number) => void;
     createNewAvatarItem: () => void;
-    discardNewItem: () => void;
     saveNewItem: (item: CreateAvatarItemForm) => Promise<void>;
 };
 
@@ -45,11 +44,10 @@ export const AvatarItemContext = createContext<AvatarItemContext>({
     requestInProgress: false,
     error: false,
     saveChanges: () => new Promise(() => {}),
-    newItem: null,
+    newItem: {} as CreateAvatarItemForm,
     handleUpdateNewItem: () => () => {},
     createNewAvatarItem: () => {},
     saveNewItem: () => new Promise(() => {}),
-    discardNewItem: () => {},
 });
 
 export const AvatarItemContextProvider = ({
@@ -65,7 +63,15 @@ export const AvatarItemContextProvider = ({
     const { requestInProgress, error, setError, setRequestInProgress } =
         useRequestTrack();
 
-    const [newItem, setNewItem] = useState<CreateAvatarItemForm | null>(null);
+    const [newItem, setNewItem] = useState<CreateAvatarItemForm>({
+        x: 0,
+        y: 0,
+        z: 0,
+        points: 20,
+        kind: AvatarItemKind.Body,
+        image: '',
+        file: '',
+    });
 
     const handleAdditem = (item: AvatarItem) => {
         setSelectedItem((pre) => {
@@ -143,20 +149,15 @@ export const AvatarItemContextProvider = ({
         };
 
     const createNewAvatarItem = () => {
-        const obj: CreateAvatarItemForm = {
+        setNewItem({
             x: 0,
             y: 0,
             z: 0,
             points: 20,
             kind: AvatarItemKind.Body,
-            file: '',
             image: '',
-        };
-        setNewItem(obj);
-    };
-
-    const discardNewItem = () => {
-        setNewItem(null);
+            file: '',
+        });
     };
 
     const saveNewItem = async (item: CreateAvatarItemForm) => {
@@ -185,7 +186,7 @@ export const AvatarItemContextProvider = ({
             res.image = item.image;
             setItems((pre) => [...pre, res]);
             setSelectedItem((pre) => [...pre, res]);
-            discardNewItem();
+            createNewAvatarItem();
         }
     };
 
@@ -207,7 +208,6 @@ export const AvatarItemContextProvider = ({
                 handleUpdateNewItem,
                 createNewAvatarItem,
                 saveNewItem,
-                discardNewItem,
             }}
         >
             {children}

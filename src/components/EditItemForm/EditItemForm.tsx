@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import './edit-item-form.css';
 
 interface Form {
     x: number;
@@ -32,7 +33,6 @@ export const EditItemForm = <T extends Form>({
         };
     return (
         <div className="edit-section-container">
-            <h3>Edit Section</h3>
             {item ? (
                 <div className="edit-item-container">
                     <div className="input-field-wrapper">

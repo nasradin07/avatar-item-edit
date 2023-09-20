@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { AvatarItemContext } from '../../context/AvatarItemContext';
+import './avatar.css';
 
 export const Avatar = () => {
     const { avatarImage, selectedItems, newItem } =
@@ -19,7 +20,7 @@ export const Avatar = () => {
                         style={{
                             top: `${y}%`,
                             left: `${x}%`,
-                            zIndex: z,
+                            zIndex: z + 1,
                         }}
                     />
                 ))}
@@ -30,7 +31,7 @@ export const Avatar = () => {
                         style={{
                             top: `${newItem.y}%`,
                             left: `${newItem.x}%`,
-                            zIndex: newItem.z,
+                            zIndex: newItem.z + 1,
                         }}
                     />
                 )}

@@ -1,0 +1,20 @@
+.edit-section-container {
+    grid-area: editor;
+    overflow: scroll;
+}
+
+.edit-item-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 80px);
+}
+
+.edit-item-btn {
+    width: 100%;
+    background-color: rgb(70, 70, 239);
+    color: white;
+}
+
+.edit-item-btn:disabled {
+    background-color: whitesmoke;
+}
