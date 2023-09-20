@@ -1,15 +1,13 @@
-import {AvatarItemContextProvider} from '../../context/AvatarItemContext';
-import {Avatar} from './Avatar';
-import {EditSection} from './EditItemSection';
-import {PickSvgSection} from './PickSvgSection';
+import { AvatarItemContextProvider } from '../../context/AvatarItemContext';
+import { Main } from './Main/Main';
+import { PickSection } from './PickSection/PickSection';
 
 export const Editor = () => {
     return (
         <AvatarItemContextProvider>
             <div className="editor-wrapper">
-                <Avatar/>
-                <PickSvgSection/>
-                <EditSection/>
+                <PickSection />
+                <Main />
             </div>
         </AvatarItemContextProvider>
     );

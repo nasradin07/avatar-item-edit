@@ -7,9 +7,9 @@ export const Header = () => {
         <div className="header">
             <div>Yuno editor</div>
             {loggedIn && (
-                <div onClick={logout} className="logout">
+                <button onClick={logout} className="logout">
                     Logout
-                </div>
+                </button>
             )}
         </div>
     );

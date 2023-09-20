@@ -1,0 +1,30 @@
+.new-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.new-item-form-wrapper {
+    padding: 10px;
+    margin: auto;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+.file-label {
+    width: 100%;
+    height: 80px;
+    color: white;
+    background-color: lightgrey;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    white-space: pre-wrap;
+}
+
+.file-label.has-file {
+    background-color: rgb(70, 70, 239);
+}

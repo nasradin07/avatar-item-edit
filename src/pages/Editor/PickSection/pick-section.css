@@ -1,0 +1,41 @@
+.edit-section-wrapper {
+    height: 100%;
+    width: 45%;
+    display: flex;
+    background-color: rgb(51, 51, 55);
+    color: white;
+}
+
+.picker {
+    height: 100%;
+    width: 8vw;
+    padding: 0.5rem 0;
+    border-right: 1px solid rgb(196, 193, 193);
+}
+
+.picker-item {
+    cursor: pointer;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.picker-item-image {
+    height: 30px;
+    width: 30px;
+}
+
+.picked-wrapper {
+    height: 100%;
+    width: 100%;
+    padding: 0.5rem;
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.picker-item-label {
+    font-size: 12px;
+}
