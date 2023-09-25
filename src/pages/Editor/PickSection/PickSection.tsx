@@ -28,6 +28,7 @@ export const PickSection = () => {
             <div className="picker">
                 {sections.map(({ label, image }) => (
                     <div
+                        key={label}
                         onClick={() => setActive(label)}
                         className="picker-item"
                     >

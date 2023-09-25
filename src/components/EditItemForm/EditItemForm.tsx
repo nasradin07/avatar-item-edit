@@ -1,5 +1,8 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { createPortal } from 'react-dom';
+
 import './edit-item-form.css';
+import { Modal } from '../Modal/Modal';
 
 interface Form {
     x: number;
@@ -16,6 +19,7 @@ type Props<T extends Form> = {
     onChange: OnChangeHandler;
     error: string | false;
     disabledSubmit: boolean;
+    validate: (item: T) => boolean;
 };
 
 export const EditItemForm = <T extends Form>({
@@ -24,15 +28,40 @@ export const EditItemForm = <T extends Form>({
     onChange,
     error,
     disabledSubmit,
+    validate,
 }: Props<T>) => {
+    const [open, setOpen] = useState(false);
+
+    const onConfirm = () => {
+        setOpen(false);
+        onSubmit(item as T);
+    };
+
+    const onCancel = () => {
+        setOpen(false);
+    };
+
+    const handleOpenModal = () => {
+        if (!validate(item as T)) {
+            return;
+        }
+        setOpen(true);
+    };
+
     const handleChange =
         (prop: 'x' | 'y' | 'z' | 'points') =>
         (e: ChangeEvent<HTMLInputElement>) => {
             const val = parseInt(e.target.value, 10);
             onChange(prop)(val);
         };
+
+    const handleEnter = (e: KeyboardEvent) => {
+        if (e.key === 'Enter' && item) {
+            handleOpenModal();
+        }
+    };
     return (
-        <div className="edit-section-container">
+        <div className="edit-section-container" onKeyDown={handleEnter}>
             {item ? (
                 <div className="edit-item-container">
                     <div className="input-field-wrapper">
@@ -74,7 +103,7 @@ export const EditItemForm = <T extends Form>({
                     <div className="edit-item-submit">
                         <button
                             disabled={disabledSubmit}
-                            onClick={() => onSubmit(item)}
+                            onClick={handleOpenModal}
                             type="button"
                             className="edit-item-btn"
                         >
@@ -86,6 +115,11 @@ export const EditItemForm = <T extends Form>({
             ) : (
                 <></>
             )}
+            {open &&
+                createPortal(
+                    <Modal onCancel={onCancel} onConfirm={onConfirm} />,
+                    document.getElementById('portal-root') || document.body
+                )}
         </div>
     );
 };

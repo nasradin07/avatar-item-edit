@@ -1,32 +1,26 @@
 import { useContext } from 'react';
 import { AvatarItemContext } from '../../context/AvatarItemContext';
 import './avatar-picker.css';
+import { AvatarPickerIcon } from './AvatarPickerIcon';
 
 export const AvatarPicker = () => {
     const { avatars, setAvatarImage, avatarImage } =
         useContext(AvatarItemContext);
 
+    const handlePickIcon = (img: string) => {
+        setAvatarImage((pre) => (pre === img ? null : img));
+    };
+
     return (
-        <>
-            <div className="avatars-container">
-                {avatars.map(({ id, image }) => (
-                    <img
-                        className="avatar-icon"
-                        key={id}
-                        src={image}
-                        onClick={() =>
-                            setAvatarImage((pre) =>
-                                pre === image ? null : image
-                            )
-                        }
-                        style={
-                            avatarImage === image
-                                ? { border: '2px solid rgb(5, 187, 5)' }
-                                : {}
-                        }
-                    />
-                ))}
-            </div>
-        </>
+        <div className="avatars-container">
+            {avatars.map(({ id, image }) => (
+                <AvatarPickerIcon
+                    id={id}
+                    image={image}
+                    onIconClick={handlePickIcon}
+                    active={image === avatarImage}
+                />
+            ))}
+        </div>
     );
 };

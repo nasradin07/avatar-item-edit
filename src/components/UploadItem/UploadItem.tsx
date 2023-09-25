@@ -12,6 +12,7 @@ export const UploadItem = () => {
         requestInProgress,
         error,
         saveNewItem,
+        validateNewItemForm,
     } = useContext(AvatarItemContext);
     const file = item.file;
 
@@ -114,6 +115,7 @@ export const UploadItem = () => {
                         onChange={handleUpdateItem}
                         onSubmit={saveNewItem}
                         disabledSubmit={requestInProgress}
+                        validate={validateNewItemForm}
                     />
                 </div>
             </div>

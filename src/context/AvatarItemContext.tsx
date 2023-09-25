@@ -30,6 +30,8 @@ type AvatarItemContext = {
     ) => (value: File | string | number) => void;
     createNewAvatarItem: () => void;
     saveNewItem: (item: CreateAvatarItemForm) => Promise<void>;
+    setError: (val: string | false) => void;
+    validateNewItemForm: (item: CreateAvatarItemForm) => boolean;
 };
 
 export const AvatarItemContext = createContext<AvatarItemContext>({
@@ -48,6 +50,8 @@ export const AvatarItemContext = createContext<AvatarItemContext>({
     handleUpdateNewItem: () => () => {},
     createNewAvatarItem: () => {},
     saveNewItem: () => new Promise(() => {}),
+    setError: () => {},
+    validateNewItemForm: () => false,
 });
 
 export const AvatarItemContextProvider = ({
@@ -160,14 +164,19 @@ export const AvatarItemContextProvider = ({
         });
     };
 
-    const saveNewItem = async (item: CreateAvatarItemForm) => {
-        setError(false);
-        if (requestInProgress) return;
+    const validateNewItem = (item: CreateAvatarItemForm) => {
         const validationRes = validateCreateItem(item);
         if (validationRes !== null) {
             setError(validationRes);
-            return;
+            return false;
         }
+        return true;
+    };
+
+    const saveNewItem = async (item: CreateAvatarItemForm) => {
+        setError(false);
+        if (requestInProgress) return;
+        if (!validateNewItem(item)) return;
         setRequestInProgress(true);
         const form = new FormData();
         Object.keys(item).forEach((key) => {
@@ -208,6 +217,8 @@ export const AvatarItemContextProvider = ({
                 handleUpdateNewItem,
                 createNewAvatarItem,
                 saveNewItem,
+                setError,
+                validateNewItemForm: validateNewItem,
             }}
         >
             {children}
